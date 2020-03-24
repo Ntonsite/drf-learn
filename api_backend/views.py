@@ -8,6 +8,24 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
+
+class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+	serializer_class = ArticleSerializer
+	queryset = Article.objects.all()
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request):
+		return self.list(request)
+
+	def post(self, request):
+		return self.create(request)
 
 # Class Based View
 class ArticleAPIView(APIView):
@@ -24,7 +42,7 @@ class ArticleAPIView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ArticleDetails(APIView):
+class ArticleDetailsAPIView(APIView):
 
 	def get_object(self, id):
 		try:
@@ -51,7 +69,6 @@ class ArticleDetails(APIView):
 		article = self.get_object(id)
 		article.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 @api_view(['GET', 'POST'])
 def article_list(request):

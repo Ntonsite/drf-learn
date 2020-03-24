@@ -5,8 +5,8 @@ from rest_framework.parsers import JSONParser
 from .models import Article
 from .serializers import ArticleSerializer
 from rest_framework.decorators import api_view
-from rest_framework.response import response
-from rest_framework.status import status
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 

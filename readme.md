@@ -1,1 +1,0 @@
-######DJANGO REST FRAMEWORK PRACTISE########
